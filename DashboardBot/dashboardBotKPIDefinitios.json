@@ -1,0 +1,234 @@
+{
+  "kb_meta": {
+    "title": "Memodo KPI Definitions KB",
+    "version": "1.0",
+    "scope": "kpi_definitions",
+    "description": "Central KPI glossary for definitions, formulas, date assignment logic, and notes."
+  },
+  "kpis": [
+    {
+      "kpi_id": "turnover",
+      "name": "Turnover",
+      "synonyms": ["invoiced turnover", "revenue"],
+      "definition": "Turnover is based on the invoice table and the \"Shipped on\" date of this table. It shows the total revenue, calculated by summing the net price total (without VAT) across all invoices, without applying any skonto/discount in this formula.",
+      "formula": "Turnover = SUM(Net price total of Invoices)",
+      "assigned_date": "The \"Shipped on\" date from the invoices table.",
+      "notes": []
+    },
+    {
+      "kpi_id": "turnover_no_package",
+      "name": "Turnover no package",
+      "synonyms": ["turnover excluding packages", "revenue no package"],
+      "definition": "Turnover no package is based on the invoices and the \"Shipped on\" date from the invoices table. It takes the price of all individual items into account for turnover calculation, even if they are sold as packages. It excludes package rows of invoices and replaces their net prices with the prices of the individual items within these packages. Then it is calculated by summing order net price total for these individual items, filtering out invoices with Type = 2 (package).",
+      "formula": "Turnover no package = SUM(Order net price total of the individual items of invoices) for all invoices where Type ≠ 2.",
+      "assigned_date": "Shipped on date from the invoices table.",
+      "notes": [
+        "This measure uses the order-level net price for all non-packages and package components from Orders.",
+        "It may differ slightly from the real invoice package price and the real Turnover, because invoices have one total package price instead of prices for each component."
+      ]
+    },
+    {
+      "kpi_id": "ordered_turnover",
+      "name": "Ordered Turnover",
+      "synonyms": ["order value"],
+      "definition": "Named as \"Order value\" in Power BI. It calculates the total sales order value by summing sales prices from orders that are not part of a package. The calculation logic is similar to Turnover no package, but for orders. It is based on the \"Date\" from the orders table and not on the default date field in the orders table.",
+      "formula": "Order value = Ordered quantity × Net order unit price",
+      "assigned_date": "Date from the orders table (the date column of Auftraege table in WAWI).",
+      "notes": []
+    },
+    {
+      "kpi_id": "invoiced_turnover",
+      "name": "Invoiced Turnover",
+      "synonyms": ["turnover"],
+      "definition": "For Power BI, this is the same as Turnover.",
+      "formula": "Same as Turnover.",
+      "assigned_date": "Same as Turnover.",
+      "notes": []
+    },
+    {
+      "kpi_id": "paid_turnover",
+      "name": "Paid Turnover",
+      "synonyms": ["paid amount without VAT", "net paid amount"],
+      "definition": "Paid amount without VAT from the invoices table. It is the total paid amount converted to net excluding VAT, calculated by summing each invoice’s paid amount divided by (1 + VAT%). To get the invoice paid amount, all payments for the process are taken and split across the invoices and invoice rows connected to that process based on their share of the process total.",
+      "formula": "Paid amount without VAT = SUM(Paid amount of invoices ÷ (1 + VAT% of invoices))",
+      "assigned_date": "Shipped on date from the invoices table. Can be different if other paid turnover formulas are used.",
+      "notes": [
+        "For Turnover unpaid, this paid amount without VAT is deducted from Turnover in the same date context.",
+        "There are different Paid Turnover calculations depending on the desired date and for no-package logic.",
+        "Paid Turnover no package per invoice row = Net paid amount of the invoice × item’s turnover share within that invoice, only for non-package items; packages get 0."
+      ]
+    },
+    {
+      "kpi_id": "turnover_skonto",
+      "name": "Turnover - Skonto",
+      "synonyms": ["turnover after skonto", "turnover after invoice discount"],
+      "definition": "Turnover after skonto is the total net turnover after applying the invoice discount (Skonto), calculated by summing each invoice’s net price total reduced by its discount rate.",
+      "formula": "Turnover after skonto = SUM(Net price total of invoice × (1 − discount rate%))",
+      "assigned_date": "Shipped on date from the invoices table.",
+      "notes": []
+    },
+    {
+      "kpi_id": "turnover_skonto_discounts",
+      "name": "Turnover - Skonto - discounts",
+      "synonyms": [],
+      "definition": null,
+      "formula": null,
+      "assigned_date": null,
+      "notes": ["Definition not provided in the source."]
+    },
+    {
+      "kpi_id": "turnover_relevant_for_customer_bonuses",
+      "name": "Turnover relevant for Customer bonuses",
+      "synonyms": [],
+      "definition": null,
+      "formula": null,
+      "assigned_date": null,
+      "notes": ["Definition not provided in the source."]
+    },
+    {
+      "kpi_id": "margin_brutto",
+      "name": "Margin brutto",
+      "synonyms": ["gross margin"],
+      "definition": "Margin brutto is from the invoices table and is the total gross margin across all invoice rows, calculated by summing the row margin from the invoices table. For each invoice row, the margin is net revenue minus discount minus shipping cost minus purchase cost (Amount × Unit purchase price).",
+      "formula": "Margin brutto = SUM((Net price total of invoice rows × (1 − Discount rate%)) − Shipping cost of invoice rows − Purchase cost of invoice rows)",
+      "assigned_date": "Shipped on date from the invoices table.",
+      "notes": []
+    },
+    {
+      "kpi_id": "margin_brutto_percent",
+      "name": "Margin brutto %",
+      "synonyms": ["gross margin percentage", "gross margin %"],
+      "definition": "Margin brutto (%) is Margin brutto divided by Turnover.",
+      "formula": "Margin brutto (%) = Margin brutto ÷ Turnover",
+      "assigned_date": "Shipped on date from the invoices table.",
+      "notes": []
+    },
+    {
+      "kpi_id": "margin_netto",
+      "name": "Margin netto",
+      "synonyms": ["net margin"],
+      "definition": "Margin netto is Margin brutto minus overhead allocated to the invoice row. An overhead amount is calculated based on a percentage of net price total. The overhead percentage exists at process level in WAWI and is applied to all invoice rows connected to the process by multiplying it with the row net price.",
+      "formula": "Margin netto = SUM(Row margin of invoice rows − (Net price total of invoice rows × Overhead margin% ÷ 100))",
+      "assigned_date": "Shipped on date from the invoices table.",
+      "notes": [
+        "Row overhead margin is rounded to 2 decimals per row."
+      ]
+    },
+    {
+      "kpi_id": "margin_netto_percent",
+      "name": "Margin netto %",
+      "synonyms": ["net margin percentage", "net margin %"],
+      "definition": "Margin netto (%) is Margin netto divided by Turnover.",
+      "formula": "Margin netto (%) = Margin netto ÷ Turnover",
+      "assigned_date": "Shipped on date from the invoices table.",
+      "notes": []
+    },
+    {
+      "kpi_id": "margin_on_monthly_sales",
+      "name": "Margin on monthly sales",
+      "synonyms": [],
+      "definition": null,
+      "formula": null,
+      "assigned_date": null,
+      "notes": ["Definition not provided in the source."]
+    },
+    {
+      "kpi_id": "margin_at_customer_level",
+      "name": "Margin at customer level",
+      "synonyms": [],
+      "definition": null,
+      "formula": null,
+      "assigned_date": null,
+      "notes": ["Definition not provided in the source."]
+    },
+    {
+      "kpi_id": "margin_at_item_level",
+      "name": "Margin at item level",
+      "synonyms": [],
+      "definition": null,
+      "formula": null,
+      "assigned_date": null,
+      "notes": ["Definition not provided in the source."]
+    },
+    {
+      "kpi_id": "quantity",
+      "name": "Quantity",
+      "synonyms": ["quantity sold", "units sold"],
+      "definition": "Quantity sold is based on the invoices table, while order quantity is based on the orders table. Quantity sold is the total number of units invoiced and sold, calculated by summing invoice quantities.",
+      "formula": "Quantity sold = SUM(Quantity of invoice rows)",
+      "assigned_date": "Shipped on date from the invoices table.",
+      "notes": []
+    },
+    {
+      "kpi_id": "quantity_no_package",
+      "name": "Quantity no package",
+      "synonyms": ["quantity sold no package", "units sold excluding packages"],
+      "definition": "Quantity sold no package is the total number of units sold excluding package invoice rows, calculated by summing sold quantities only for invoices where Type ≠ 2. It considers the individual products in the packages instead of the packages themselves.",
+      "formula": "Quantity sold no package = SUM(Quantity of invoice rows) for non-package rows.",
+      "assigned_date": "Shipped on date from the invoices table.",
+      "notes": []
+    },
+    {
+      "kpi_id": "order_value",
+      "name": "Order Value",
+      "synonyms": ["ordered turnover"],
+      "definition": "Same as Ordered Turnover. It calculates the total sales order value by summing sales prices from orders that are not part of a package. The calculation logic is similar to Turnover no package but for orders. It is based on the Goods Issue from the orders table.",
+      "formula": "Order value = Σ(Ordered quantity × Net order unit purchase price) for relevant order rows and dates.",
+      "assigned_date": "Goods issue date from the orders table.",
+      "notes": [
+        "Net order unit purchase price = Unit list price on the order date × (1 − total on-invoice product rebate rate).",
+        "Cash discount and off-invoice rebates are not deducted.",
+        "Transportation costs are not included."
+      ]
+    },
+    {
+      "kpi_id": "order_quantity",
+      "name": "Order Quantity",
+      "synonyms": [],
+      "definition": "Order Quantity is the total ordered quantity for non-package rows of the orders, calculated by summing Orders[Quantity] while filtering to Orders[Package] = 0 and applying the calculation date to Orders[Date]. The default Goods issue date relationship is not used for this calculation.",
+      "formula": "Order Quantity = SUM(Quantity of Orders) for all order rows where Package = 0, using Orders[Date] for date filtering.",
+      "assigned_date": "Date from the Orders table.",
+      "notes": [
+        "This measure uses Orders[Date] and not the default Goods issue date relationship."
+      ]
+    },
+    {
+      "kpi_id": "number_of_orders",
+      "name": "# of Orders",
+      "synonyms": ["number of orders", "order count"],
+      "definition": "Number of Orders is the count of unique non-package orders, calculated as the distinct number of Orders[ID ORDER], using Orders[Date] for date filtering.",
+      "formula": "Number of Orders = DISTINCTCOUNT(Orders[ID ORDER]) using Orders[Date] as the reference date.",
+      "assigned_date": null,
+      "notes": [
+        "The assigned date was marked as ??? in the source."
+      ]
+    },
+    {
+      "kpi_id": "inventory_level_value_eur",
+      "name": "Inventory level value (€)",
+      "synonyms": ["inventory value", "stock value", "inventory stock value"],
+      "definition": "Inventory level value can refer to two variants: 1) Inventory value based on WAWI, which is the total inventory value on the latest inventory snapshot date, calculated by summing Quantity × Average purchase price for all items, where average purchase price is averaged from purchase orders over the last 12 months. 2) PROLAG inventory stock value based on Prolag data, which is the total stock value on the latest available snapshot date.",
+      "formula": "Inventory value = SUM(Quantity of items × Average purchase price of items). PROLAG inventory stock value = SUM(Quantity of items × Average purchase price of items).",
+      "assigned_date": "\"Date\" column from the inventory level table and the \"Data snapshot date\" from the Prolag inventory table.",
+      "notes": []
+    },
+    {
+      "kpi_id": "purchase_quantity",
+      "name": "Purchase quantity",
+      "synonyms": ["ordered purchase quantity", "purchase invoice quantity"],
+      "definition": "From Mewi. Ordered Purchase Quantity, based on the purchase orders table, is the total quantity ordered from purchase orders for non-cancelled purchase order lines. Purchase invoice Quantity, based on the purchase invoices table, is the total quantity invoiced by suppliers.",
+      "formula": "Purchase quantity = SUM(Quantity of purchase order quantity). Purchase invoice quantity = SUM(Quantity of purchase invoices).",
+      "assigned_date": "Delivery date for the purchase orders table and Invoice date for the purchase invoice table.",
+      "notes": []
+    },
+    {
+      "kpi_id": "purchase_value",
+      "name": "Purchase value",
+      "synonyms": ["ordered purchase value", "purchase invoice value", "purchase turnover"],
+      "definition": "From Mewi. Ordered Purchase Value is the total net purchase value for non-cancelled purchase order lines, calculated as Quantity × Net price per line and summed across all included purchase order lines. Purchase invoice Value is the total purchase invoice value, calculated by summing Price × Quantity across all lines in the purchase invoices table.",
+      "formula": "Ordered Purchase Value = SUM(Quantity of purchase order line × Net price of purchase order line) for all lines where Cancelled = 0. Purchase invoice Turnover = SUM(Price of purchase invoice line × Quantity of purchase invoice line).",
+      "assigned_date": "Delivery date for the purchase orders table and Invoice date for the purchase invoice table.",
+      "notes": []
+    }
+  ]
+}

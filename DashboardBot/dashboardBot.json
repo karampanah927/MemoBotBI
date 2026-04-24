@@ -1,0 +1,448 @@
+{
+  "kb_meta": {
+    "title": "Memodo Analytics – Dashboard Navigation Knowledge Base (RAG)",
+    "version": "1.0",
+    "scope": "navigation_only",
+    "how_to_use": {
+      "goal": "Route users to the correct Power BI report + page + visual for a KPI/chart request.",
+      "bot_should_return": [
+        "best_matching_page",
+        "direct_report_link",
+        "optional_screenshot_reference_if_available",
+        "suggested_filters_or_slicers"
+      ],
+      "limitations": [
+        "This KB does NOT contain live KPI values.",
+        "To show live values, users must open the report OR the bot must be connected to Power BI APIs."
+      ]
+    }
+  },
+  "dashboards": [
+    {
+      "report_id": "memodo_sales_performance",
+      "report_name": "Memodo Sales Performance",
+      "report_url": "https://app.powerbi.com/groups/me/apps/f0a67f30-4cfa-4e8e-a056-7bf4fc8a51a7/reports/c30b1464-4617-42eb-86d0-944004bc2086/ReportSection3a29fbc3e14e9b37a096?experience=power-bi",
+      "pages": [
+        {
+          "page_id": "sales_overview",
+          "page_name": "Sales overview",
+          "purpose": "High-level sales KPIs and “what’s happening now”, including invoiced turnover, expected turnover, and outstanding deliveries.",
+          "filters_slicers": [],
+          "kpis": [
+            {
+              "name": "Turnover YTD",
+              "synonyms": ["revenue YTD", "sales YTD", "invoiced turnover YTD"]
+            },
+            {
+              "name": "Delta Turnover PoP",
+              "synonyms": ["period-over-period turnover change", "PoP turnover"]
+            },
+            {
+              "name": "Margin brutto YTD",
+              "synonyms": ["gross margin YTD", "margin %"]
+            },
+            {
+              "name": "Outstanding deliveries value overall",
+              "synonyms": ["open deliveries value", "deliveries backlog value"]
+            }
+          ],
+          "visuals": [
+            {
+              "title": "Invoiced turnover by month",
+              "use_for": "Monthly invoiced turnover trend, compare years",
+              "synonyms": ["invoiced revenue by month", "monthly turnover", "monthly sales"]
+            },
+            {
+              "title": "Outstanding deliveries by goods issue",
+              "use_for": "Backlog / outstanding deliveries trend",
+              "synonyms": ["open deliveries", "goods-issue backlog", "delivery backlog"]
+            },
+            {
+              "title": "Order income vs. invoiced turnover",
+              "use_for": "Order intake vs invoicing",
+              "synonyms": ["order intake vs turnover", "orders vs invoices"]
+            }
+          ],
+          "tables": [
+            {
+              "title": "Outstanding deliveries details",
+              "columns_example": ["Creation date", "Goods issue", "Company", "Process number", "Order value"],
+              "use_for": "Drill into which orders contribute to outstanding deliveries"
+            }
+          ],
+          "typical_questions": [
+            "Where can I see outstanding deliveries?",
+            "How is turnover developing by month?",
+            "Order intake vs invoiced turnover?",
+            "What is our gross margin YTD?"
+          ],
+          "screenshot": {
+            "asset_id": "sales_overview",
+            "image_file": "sales_overview.png",
+            "image_url": null
+          }
+        },
+        {
+          "page_id": "manufacturer_sales_insights",
+          "page_name": "Manufacturer sales insights",
+          "purpose": "Manufacturer & product category performance: turnover, margin, quantities, top products.",
+          "filters_slicers": ["Product category", "Manufacturer", "Date selection (e.g., last N weeks, calendar weeks)"],
+          "kpis": [
+            { "name": "Turnover", "synonyms": ["sales", "revenue"] },
+            { "name": "Margin brutto", "synonyms": ["gross margin"] },
+            { "name": "Quantity sold", "synonyms": ["units sold", "sold quantity"] }
+          ],
+          "visuals": [
+            {
+              "title": "Turnover and quantity sold (by week)",
+              "use_for": "Weekly pattern and short-term trends",
+              "synonyms": []
+            },
+            {
+              "title": "Turnover share and margin (by product category)",
+              "use_for": "Category share + category margin comparison",
+              "synonyms": []
+            },
+            {
+              "title": "Top products by turnover",
+              "use_for": "Best sellers by revenue (often product code + name)",
+              "synonyms": ["best sellers by revenue", "top selling products by revenue"]
+            }
+          ],
+          "tables": [],
+          "typical_questions": [
+            "Top products by turnover?",
+            "Which category has the best margin?",
+            "Manufacturer performance last 6 weeks?",
+            "Units sold by week?"
+          ],
+          "screenshot": {
+            "asset_id": "manufacturer_sales_insights",
+            "image_file": "manufacturer_sales_insights.png",
+            "image_url": null
+          }
+        }
+      ]
+    },
+    {
+      "report_id": "purchasing",
+      "report_name": "Purchasing",
+      "report_url": "https://app.powerbi.com/groups/me/apps/f0a67f30-4cfa-4e8e-a056-7bf4fc8a51a7/reports/a7ecead5-5821-4637-887d-d83e77ba0f3b?experience=power-bi",
+      "pages": [
+        {
+          "page_id": "purchasing_overview",
+          "page_name": "Purchasing overview",
+          "purpose": "Overview of purchasing turnover and ranking of manufacturers/products for purchasing.",
+          "filters_slicers": ["Order year", "Order month", "WAWI (source/system filter)"],
+          "kpis": [],
+          "visuals": [
+            {
+              "title": "Top 10 manufacturer by purchasing turnover and order creation date",
+              "use_for": "Top manufacturers/suppliers by purchase amount",
+              "synonyms": ["top suppliers by purchase amount", "top manufacturers purchasing"]
+            },
+            {
+              "title": "Top 10 products by purchasing turnover and order creation date",
+              "use_for": "Top purchased products by purchase amount",
+              "synonyms": ["top purchased products", "purchase ranking products"]
+            },
+            {
+              "title": "Purchasing turnover by product category and order creation date (donut)",
+              "use_for": "Purchasing split/mix by category",
+              "synonyms": ["purchasing split by category", "purchase mix by category"]
+            }
+          ],
+          "tables": [],
+          "typical_questions": [
+            "Who are the top manufacturers by purchase amount?",
+            "Top purchased products this month/year?",
+            "Purchasing distribution by product category?"
+          ],
+          "screenshot": {
+            "asset_id": "purchasing_overview",
+            "image_file": "purchasing_overview.png",
+            "image_url": null
+          }
+        },
+        {
+          "page_id": "manufacturer_purchasing_overview",
+          "page_name": "Manufacturer purchasing overview",
+          "purpose": "Deep-dive for purchasing by manufacturer/product with creation vs delivery date perspectives.",
+          "filters_slicers": [
+            "Product category",
+            "Manufacturer",
+            "Product code & name",
+            "WAWI",
+            "Purchase order creation date range",
+            "Purchase order delivery date range"
+          ],
+          "kpis": [
+            {
+              "name": "Purchase amount by purchase order creation date",
+              "synonyms": ["purchase amount by creation date"]
+            },
+            {
+              "name": "Purchase turnover by purchase order delivery date",
+              "synonyms": ["purchase turnover by delivery date"]
+            },
+            {
+              "name": "Current inventory level",
+              "synonyms": ["inventory level"],
+              "notes": "May be blank depending on model/data availability."
+            }
+          ],
+          "visuals": [
+            {
+              "title": "Product ranking by purchase order creation date",
+              "use_for": "Ranking products by purchase amount using creation date",
+              "synonyms": ["product ranking (creation date)"]
+            },
+            {
+              "title": "Product ranking by purchase order delivery date",
+              "use_for": "Ranking products by purchase amount using delivery date",
+              "synonyms": ["product ranking (delivery date)"]
+            }
+          ],
+          "tables": [],
+          "typical_questions": [
+            "Purchasing by delivery date vs creation date?",
+            "Which products were purchased for a specific manufacturer?",
+            "Product ranking for purchase orders (creation/delivery)?"
+          ],
+          "screenshot": {
+            "asset_id": "manufacturer_purchasing_overview",
+            "image_file": "manufacturer_purchasing_overview.png",
+            "image_url": null
+          }
+        }
+      ]
+    },
+    {
+      "report_id": "sales_controlling",
+      "report_name": "Sales Controlling",
+      "report_url": "https://app.powerbi.com/groups/me/apps/f0a67f30-4cfa-4e8e-a056-7bf4fc8a51a7/reports/f11ae2c3-38e8-4113-ad05-0e69109d8047?experience=power-bi",
+      "pages": [
+        {
+          "page_id": "extended_customer_list",
+          "page_name": "Extended customer list",
+          "purpose": "Detailed customer master list for analysis/lookup (contains personal data).",
+          "filters_slicers": ["Customer market", "Churn segment", "Manufacturer", "Year"],
+          "kpis": [],
+          "visuals": [],
+          "tables": [
+            {
+              "title": "Customer master table",
+              "columns_example": [
+                "Customer ID",
+                "Company",
+                "Email",
+                "Phone",
+                "First name",
+                "Surname",
+                "Postal code",
+                "Customer segment",
+                "Field sales"
+              ]
+            }
+          ],
+          "typical_questions": [
+            "Customer email / phone / contact details?",
+            "Customer segment for customer X?",
+            "List customers by churn segment / market / year?"
+          ],
+          "data_sensitivity": {
+            "contains_pii": true,
+            "policy_note": "Contains PII (emails, phones). The bot should avoid exposing PII unless the user is authorized."
+          },
+          "screenshot": {
+            "asset_id": "extended_customer_list",
+            "image_file": "extended_customer_list.png",
+            "image_url": null
+          }
+        },
+        {
+          "page_id": "incentive_board",
+          "page_name": "Incentive board",
+          "purpose": "Sales incentive performance by salesperson, with paid turnover, open turnover, margin and YTD achievement.",
+          "filters_slicers": ["Salesman", "Product code & name", "Customer", "Date selection (from–to)", "Year"],
+          "kpis": [],
+          "visuals": [],
+          "tables": [
+            {
+              "title": "Incentive performance table",
+              "metrics_example": [
+                "Paid turnover",
+                "Credit note",
+                "Paid revenue",
+                "Open turnover",
+                "Paid margin (%)",
+                "Plan",
+                "YTD Achievement",
+                "YTD Achievement (%)"
+              ]
+            }
+          ],
+          "typical_questions": [
+            "YTD achievement by salesperson?",
+            "Paid margin for incentives?",
+            "Open turnover for salesperson X?",
+            "Incentive plan vs actual?"
+          ],
+          "screenshot": {
+            "asset_id": "incentive_board",
+            "image_file": "incentive_board.png",
+            "image_url": null
+          }
+        }
+      ]
+    },
+    {
+      "report_id": "customer_payment_monitoring",
+      "report_name": "Customer Payment Monitoring (Open Orders / Historical Open Orders)",
+      "report_url": "https://app.powerbi.com/groups/me/apps/f0a67f30-4cfa-4e8e-a056-7bf4fc8a51a7/reports/e33075b5-7595-427b-ac73-99c17c61e39e/24c895d8477fac0ed2fc?experience=power-bi",
+      "pages": [
+        {
+          "page_id": "open_orders",
+          "page_name": "Open Orders",
+          "purpose": "Current open/unpaid & overdue situation: unpaid turnover, overdue, reminders, credit limits.",
+          "filters_slicers": ["Date (often year selection)", "Customer Market", "Company", "Manufacturer", "Granted Credit Limit"],
+          "kpis": [
+            { "name": "Turnover", "synonyms": ["sales", "revenue"] },
+            { "name": "Overdue Invoices %", "synonyms": ["overdue rate", "late invoices percent"] },
+            { "name": "Credit limit", "synonyms": ["granted credit limit"] },
+            { "name": "Unpaid Turnover", "synonyms": ["open turnover", "unpaid revenue"] }
+          ],
+          "visuals": [
+            {
+              "title": "Unpaid Turnover, Overdue Value, Reminder 1 Value, Reminder 2 Value, Reminder 3 Value",
+              "use_for": "Overview of unpaid vs overdue vs reminder levels",
+              "synonyms": ["unpaid total", "overdue total", "reminders total"]
+            },
+            {
+              "title": "Turnover, Unpaid Turnover and Overdue Value by Year and Month",
+              "use_for": "Monthly unpaid/overdue trend",
+              "synonyms": ["monthly unpaid trend", "monthly overdue trend"]
+            }
+          ],
+          "tables": [
+            {
+              "title": "Open orders detail table",
+              "columns_example": [
+                "Company",
+                "Turnover",
+                "Granted Credit limit",
+                "Turnover unpaid (used credit)",
+                "Customer Available Credit",
+                "Overdue value",
+                "Reminder dates/values"
+              ]
+            }
+          ],
+          "typical_questions": [
+            "Which customers are overdue?",
+            "How much unpaid turnover do we have?",
+            "Reminder levels (1/2/3) totals?",
+            "Available credit and used credit?"
+          ],
+          "screenshot": {
+            "asset_id": "customer_payment_open_orders",
+            "image_file": "customer_payment_open_orders.png",
+            "image_url": null
+          }
+        },
+        {
+          "page_id": "historical_open_orders",
+          "page_name": "Historical Open Orders",
+          "purpose": "Trend view across time: used credit trend and unpaid/partially paid invoiced amount trend.",
+          "filters_slicers": ["Date", "Customer Market", "Company", "Manufacturer", "Granted Credit Limit"],
+          "kpis": [
+            { "name": "Turnover", "synonyms": ["sales", "revenue"] },
+            { "name": "Overdue Invoices %", "synonyms": ["overdue rate", "late invoices percent"] },
+            { "name": "Credit limit", "synonyms": ["granted credit limit"] },
+            { "name": "Unpaid Turnover", "synonyms": ["open turnover", "unpaid revenue"] }
+          ],
+          "visuals": [
+            {
+              "title": "Used Credit (EUR) by Year, Quarter, Month and Day",
+              "use_for": "Used credit / credit usage trend over time",
+              "synonyms": ["used credit trend", "credit usage over time"]
+            },
+            {
+              "title": "Invoiced Amount with VAT for Unpaid/Partially Paid Processes (EUR) by Year and Month",
+              "use_for": "Unpaid/partially paid invoiced amount trend over time",
+              "synonyms": ["unpaid invoiced amount", "partially paid amount", "unpaid invoice value trend"]
+            }
+          ],
+          "tables": [
+            {
+              "title": "Historical open orders detail table",
+              "notes": "Company-level snapshot style"
+            }
+          ],
+          "typical_questions": [
+            "How did used credit evolve over time?",
+            "Unpaid/partially paid invoiced amount by month?",
+            "Trend of unpaid invoices?"
+          ],
+          "screenshot": {
+            "asset_id": "customer_payment_historical_open_orders",
+            "image_file": "customer_payment_historical_open_orders.png",
+            "image_url": null
+          }
+        }
+      ]
+    }
+  ],
+  "routing_hints": [
+    {
+      "keywords": ["outstanding deliveries", "backlog", "goods issue"],
+      "route_to": {
+        "report_id": "memodo_sales_performance",
+        "page_id": "sales_overview"
+      }
+    },
+    {
+      "keywords": ["top products", "turnover by manufacturer", "quantity sold", "units sold"],
+      "route_to": {
+        "report_id": "memodo_sales_performance",
+        "page_id": "manufacturer_sales_insights"
+      }
+    },
+    {
+      "keywords": ["purchase turnover", "top purchased products", "purchase by category", "purchase mix"],
+      "route_to": {
+        "report_id": "purchasing",
+        "page_id": "purchasing_overview"
+      }
+    },
+    {
+      "keywords": ["purchase creation date", "purchase delivery date", "creation vs delivery"],
+      "route_to": {
+        "report_id": "purchasing",
+        "page_id": "manufacturer_purchasing_overview"
+      }
+    },
+    {
+      "keywords": ["unpaid", "overdue", "reminder", "credit limit", "used credit", "available credit"],
+      "route_to": {
+        "report_id": "customer_payment_monitoring",
+        "page_id": "open_orders",
+        "alternate_page_id": "historical_open_orders"
+      }
+    },
+    {
+      "keywords": ["customer email", "customer phone", "contact details", "churn segment"],
+      "route_to": {
+        "report_id": "sales_controlling",
+        "page_id": "extended_customer_list"
+      }
+    },
+    {
+      "keywords": ["plan vs actual", "ytd achievement", "incentive", "paid margin", "salesman performance"],
+      "route_to": {
+        "report_id": "sales_controlling",
+        "page_id": "incentive_board"
+      }
+    }
+  ]
+}
